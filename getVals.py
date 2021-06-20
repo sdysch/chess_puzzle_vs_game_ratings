@@ -55,12 +55,31 @@ def main(args):
             except KeyError:
                 continue
 
-            # FIXME, need to check if at least 10 games have been played of these categories
             # get ratings from each of these categories
             categories = ["chess_blitz", "chess_bullet", "chess_rapid", "chess_daily"]
             ratings = []
             for category in categories:
                 if category not in player_stats.keys():
+                    continue
+
+                # get nGames of this category, skip if < args.minGames
+                stats = player_stats[category]
+                record = stats["record"]
+                nGames = 0
+                try:
+                    nGames += record["win"]
+                except KeyError:
+                    pass
+                try:
+                    nGames += record["lose"]
+                except KeyError:
+                    pass
+                try:
+                    nGames += record["draw"]
+                except KeyError:
+                    pass
+
+                if nGames < args.minGames:
                     continue
 
                 ratings += [player_stats[category][gameRatingType]["rating"]]
@@ -97,5 +116,6 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--maxPlayers", metavar = "MAXPLAYERS", type = int, help = "Maximum number of users to include")
+    parser.add_argument("--minGames", metavar = "MINGAMES", type = int, default = 10, help = "Minimum number of games player must have in this category")
     args = parser.parse_args()
     main(args)
