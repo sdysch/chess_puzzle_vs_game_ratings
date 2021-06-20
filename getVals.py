@@ -83,7 +83,7 @@ def main(args):
     #print(gameRatings)
     #print(puzzleRatings)
 
-    plt.scatter(gameRatings, puzzleRatings, c = "b")
+    plt.scatter(gameRatings, puzzleRatings, c = "b", marker = ".")
 
     plt.ylabel("chess.com puzzle rating", fontsize = 15)
     plt.xlabel("chess.com game rating",   fontsize = 15)
