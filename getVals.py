@@ -2,7 +2,6 @@ import requests
 import pprint
 from chessdotcom import get_player_stats, get_player_profile
 from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
 from progress.bar import IncrementalBar
 import argparse
 
@@ -21,8 +20,9 @@ def main(args):
     gameRatingType   = "last"
     puzzleRatingType = "highest"
 
-    puzzleRatings = []
-    gameRatings   = []
+    chessRatings = []
+    #puzzleRatings = []
+    #gameRatings   = []
 
     maxPlayers = len(data["players"]) if not args.maxPlayers else args.maxPlayers
     with IncrementalBar("Getting user data", max = maxPlayers) as bar:
@@ -36,6 +36,8 @@ def main(args):
             now = datetime.now()
             difference = now - datetime.fromtimestamp(joinTimestamp)
             if difference < timedelta(weeks = 4):
+                i += 1
+                bar.next()
                 continue
 
             # get player's ratings
@@ -48,11 +50,15 @@ def main(args):
             # doesn't seem possible to see how many puzzles the player has done :'(
             # However, a player who has done no puzzles has no rating. Best we can do is skip
             if "tactics" not in player_stats.keys():
+                i += 1
+                bar.next()
                 continue
 
             try:
                 puzzleRating = player_stats["tactics"][puzzleRatingType]["rating"]
             except KeyError:
+                i += 1
+                bar.next()
                 continue
 
             # get ratings from each of these categories
@@ -86,29 +92,25 @@ def main(args):
 
             # check we got at least 1 rating, else skip
             if len(ratings) == 0:
+                i += 1
+                bar.next()
                 continue
             
             maxRating = max(ratings)
 
             # only get here if we have both game and puzzle rating, add to store
-            gameRatings += [maxRating]
-            puzzleRatings += [puzzleRating]
+            #gameRatings += [maxRating]
+            #puzzleRatings += [puzzleRating]
+            chessRatings += [(maxRating, puzzleRating)]
 
             bar.next()
             i += 1
 
-    # now we can plot the results
-
-    #print(gameRatings)
-    #print(puzzleRatings)
-
-    plt.scatter(gameRatings, puzzleRatings, c = "b", marker = ".")
-
-    plt.ylabel("chess.com puzzle rating", fontsize = 15)
-    plt.xlabel("chess.com game rating",   fontsize = 15)
-
-    #plt.show()
-    plt.savefig("chess_game_ratings_vs_puzzles.png")
+    # write results to file
+    #print(chessRatings)
+    with open("results.txt", "w") as f:
+        for result in chessRatings:
+            f.write(str(result[0]) + " " + str(result[1]) + "\n")
 
 #====================================================================================================
 
