@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.stats import pearsonr
 
 #====================================================================================================
 
@@ -18,8 +19,8 @@ def main():
     # plot line of equal puzzle and game ratings
     minVal = min(min(gameRatings, puzzleRatings))
     maxVal = max(max(gameRatings, puzzleRatings))
-    print(minVal)
-    print(maxVal)
+    #print(minVal)
+    #print(maxVal)
 
     x = np.array(range(minVal, maxVal, 1))
     y = x
@@ -35,6 +36,8 @@ def main():
 
     plt.savefig("chess_game_ratings_vs_puzzles.png")
     plt.show()
+
+    print(pearsonr(gameRatings, puzzleRatings))
 
 #====================================================================================================
 

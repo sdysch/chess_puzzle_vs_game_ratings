@@ -1,3 +1,4 @@
 chess.com
 matplotlib
 progress
+scipy
