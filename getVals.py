@@ -24,9 +24,10 @@ def main(args):
     #puzzleRatings = []
     #gameRatings   = []
 
+    i = 0
     maxPlayers = len(data["players"]) if not args.maxPlayers else args.maxPlayers
     with IncrementalBar("Getting user data", max = maxPlayers) as bar:
-        for i, player in enumerate(data["players"]):
+        for player in data["players"]:
 
             if args.maxPlayers and i == maxPlayers:
                 break
@@ -36,8 +37,6 @@ def main(args):
             now = datetime.now()
             difference = now - datetime.fromtimestamp(joinTimestamp)
             if difference < timedelta(weeks = 4):
-                i += 1
-                bar.next()
                 continue
 
             # get player's ratings
@@ -50,15 +49,11 @@ def main(args):
             # doesn't seem possible to see how many puzzles the player has done :'(
             # However, a player who has done no puzzles has no rating. Best we can do is skip
             if "tactics" not in player_stats.keys():
-                i += 1
-                bar.next()
                 continue
 
             try:
                 puzzleRating = player_stats["tactics"][puzzleRatingType]["rating"]
             except KeyError:
-                i += 1
-                bar.next()
                 continue
 
             # get ratings from each of these categories
@@ -92,8 +87,6 @@ def main(args):
 
             # check we got at least 1 rating, else skip
             if len(ratings) == 0:
-                i += 1
-                bar.next()
                 continue
             
             maxRating = max(ratings)
@@ -103,6 +96,7 @@ def main(args):
             #puzzleRatings += [puzzleRating]
             chessRatings += [(maxRating, puzzleRating)]
 
+            # only increment if we select this data point
             bar.next()
             i += 1
 
