@@ -24,6 +24,9 @@ def main(args):
     #puzzleRatings = []
     #gameRatings   = []
 
+    # output file
+    f = open("results.txt", "w")
+
     i = 0
     maxPlayers = len(data["players"]) if not args.maxPlayers else args.maxPlayers
     with IncrementalBar("Getting user data", max = maxPlayers) as bar:
@@ -94,17 +97,18 @@ def main(args):
             # only get here if we have both game and puzzle rating, add to store
             #gameRatings += [maxRating]
             #puzzleRatings += [puzzleRating]
-            chessRatings += [(maxRating, puzzleRating)]
+            #chessRatings += [(maxRating, puzzleRating)]
+            f.write(str(maxRating) + " " + str(puzzleRating) + "\n")
 
             # only increment if we select this data point
             bar.next()
             i += 1
 
     # write results to file
-    #print(chessRatings)
-    with open("results.txt", "w") as f:
-        for result in chessRatings:
-            f.write(str(result[0]) + " " + str(result[1]) + "\n")
+    # with open("results.txt", "w") as f:
+        # for result in chessRatings:
+            # f.write(str(result[0]) + " " + str(result[1]) + "\n")
+    f.close()
 
 #====================================================================================================
 
