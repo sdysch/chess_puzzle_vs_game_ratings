@@ -1,5 +1,7 @@
 Exploring how chess.com puzzle rating correlates with chess rating
 
+You can find a small blog post that I wrote about this [here](https://sdysch.github.io/Chess-Ratings/)
+
 * Select all UK players
 	* Seems one can only select players by country, not get a full list
 * Reject new accounts -  those which are less than 4 weeks old
