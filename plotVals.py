@@ -26,7 +26,7 @@ def main():
     y = x
 
     plt.plot(x, y, label = "Equal puzzle and game ratings", c = "r")
-    plt.scatter(gameRatings, puzzleRatings, c = "b", marker = ".", label = "chess.com data")
+    plt.scatter(gameRatings, puzzleRatings, c = "b", marker = ".", s = 10, label = "chess.com data")
 
     plt.ylabel("chess.com puzzle rating", fontsize = 15)
     plt.xlabel("chess.com game rating",   fontsize = 15)
