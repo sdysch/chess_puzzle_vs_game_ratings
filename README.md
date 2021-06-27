@@ -11,3 +11,5 @@ You can find a small blog post that I wrote about this [here](https://sdysch.git
 	* Cannot seem to have access to the number of puzzles played
 
 [![rating correlations](chess_game_ratings_vs_puzzles.png)](chess_game_ratings_vs_puzzles.png)
+[![hists](hists_1D.png)](hists_1D.png)
+[![hists](hist_2D.png)](hist_2D.png)
